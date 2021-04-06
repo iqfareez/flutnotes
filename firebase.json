@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "public": "build/web",
+    "site": "flutnotes",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
