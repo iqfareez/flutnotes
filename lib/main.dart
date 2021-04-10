@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flut_notes/view/app.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
