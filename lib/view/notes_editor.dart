@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 
 class NotesEditor extends StatefulWidget {
+  NotesEditor({@required this.title});
+  final String title;
   @override
   _NotesEditorState createState() => _NotesEditorState();
 }
 
 class _NotesEditorState extends State<NotesEditor> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _titleController;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: widget.title);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +33,7 @@ class _NotesEditorState extends State<NotesEditor> {
                     children: [
                       Flexible(
                         child: TextFormField(
+                          controller: _titleController,
                           decoration: InputDecoration(border: InputBorder.none),
                           style: TextStyle(
                               fontSize: 21,
@@ -36,7 +46,9 @@ class _NotesEditorState extends State<NotesEditor> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                             child: Text('Discard'),
                           ),
                           ElevatedButton(
