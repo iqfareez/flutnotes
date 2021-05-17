@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: ^1.0.4
   animations: ^2.0.0
   flutter_staggered_animations: ^1.0.0
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -63,14 +64,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: Ubuntu
-      fonts:
-        - asset: fonts/Ubuntu/Ubuntu-Regular.ttf
-        - asset: fonts/Ubuntu/Ubuntu-Italic.ttf
-          style: italic
-        - asset: fonts\Ubuntu\Ubuntu-Bold.ttf
-          weight: 700
+  # fonts:
+  #   - family: Ubuntu
+  #     fonts:
+  #       - asset: fonts/Ubuntu/Ubuntu-Regular.ttf
+  #       - asset: fonts/Ubuntu/Ubuntu-Italic.ttf
+  #         style: italic
+  #       - asset: fonts\Ubuntu\Ubuntu-Bold.ttf
+  #         weight: 700
 
   #   - family: Trajan Pro
   #     fonts:
