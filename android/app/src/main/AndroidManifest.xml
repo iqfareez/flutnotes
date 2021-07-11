@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iqfareez.flut_notes">
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="flut_notes"
+        android:label="Flutnotes"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

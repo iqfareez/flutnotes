@@ -1,42 +1,50 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flut_notes/utils/user_notes_model.dart';
 import 'package:flutter/material.dart';
 
 class NotesEditor extends StatefulWidget {
-  NotesEditor({this.userNotes});
+  NotesEditor({
+    @required this.userNotes,
+  });
   final UserNotes userNotes;
-
   @override
   _NotesEditorState createState() => _NotesEditorState();
 }
 
 class _NotesEditorState extends State<NotesEditor> {
   final _formKey = GlobalKey<FormState>();
-  final _userNotesReference = FirebaseFirestore.instance
-      .collection('/flutnotes/fFFhZTnPmuNjLUme4O7F/usernotes');
+  final _userUid = FirebaseAuth.instance.currentUser.uid;
+  CollectionReference _userNotesReference;
   TextEditingController _titleController;
   TextEditingController _noteController;
   bool _isNew;
-  bool _enableEditing = false;
+  bool _enableEditing;
   String _documentId;
+  bool _isSavingOperation = false;
 
   @override
   void initState() {
     super.initState();
+    _userNotesReference =
+        FirebaseFirestore.instance.collection('/flutnotes/$_userUid/usernotes');
     _titleController = TextEditingController(text: widget.userNotes.title);
     _noteController = TextEditingController(text: widget.userNotes.note);
-    _isNew = widget.userNotes.docId == null;
+    _isNew = widget.userNotes.docId ==
+        null; // is this new document created or editing existing
     _documentId = widget.userNotes.docId;
+    _enableEditing = _isNew;
   }
 
   /// Check whether is there any unsaved changes
   Future<bool> _isSafeToDiscard() async {
-    return _noteController.text.isEmpty ||
+    return !_enableEditing ||
+        _noteController.text.isEmpty ||
         await showDialog(
           context: context,
           builder: (builder) {
             return AlertDialog(
-              title: Text('title'),
+              title: Text('Discard changes'),
               content: Text('Conetnt'),
               actions: [
                 TextButton(
@@ -60,6 +68,7 @@ class _NotesEditorState extends State<NotesEditor> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // capture back button trigger
       onWillPop: _isSafeToDiscard,
       child: Scaffold(
         body: SafeArea(
@@ -76,11 +85,17 @@ class _NotesEditorState extends State<NotesEditor> {
                         child: TextFormField(
                           readOnly: !_enableEditing,
                           controller: _titleController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) => value.isEmpty
+                              ? 'Title can\'t be left empty'
+                              : null,
                           decoration: InputDecoration(
                               border: InputBorder.none, hintText: 'Title'),
                           style: TextStyle(
                               fontSize: 21,
-                              decoration: TextDecoration.underline,
+                              decoration: _enableEditing
+                                  ? TextDecoration.underline
+                                  : TextDecoration.none,
                               fontWeight: FontWeight.w100,
                               decorationStyle: TextDecorationStyle.dotted),
                         ),
@@ -100,34 +115,59 @@ class _NotesEditorState extends State<NotesEditor> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  if (_isNew) {
-                                    _userNotesReference.add({
-                                      'title': 'new titile',
-                                      'note': 'new note',
-                                      'modified': Timestamp.now(),
-                                      'created': Timestamp.now(),
-                                    }).then((value) {
-                                      print('done');
-                                      print('${value.id} created');
-                                      setState(() {
-                                        _documentId = value.id;
-                                        _isNew = false;
-                                        _enableEditing = false;
-                                      });
-                                    });
-                                  }
-                                  _userNotesReference.doc(_documentId).update({
-                                    'title': _titleController.text,
-                                    'note': _noteController.text,
-                                    'modified': Timestamp.now()
-                                  }).then((value) {
-                                    print('done');
+                                  if (_formKey.currentState.validate()) {
                                     setState(() {
-                                      _enableEditing = false;
+                                      _isSavingOperation = true;
                                     });
-                                  });
+                                    // if creating new doc, should add to databse
+                                    // if editing existing document, should update
+                                    // the database
+                                    if (_isNew) {
+                                      _userNotesReference.add({
+                                        'title': _titleController.text,
+                                        'note': _noteController.text,
+                                        'modified': Timestamp.now(),
+                                        'created': Timestamp.now(),
+                                      }).then((value) {
+                                        print('Notes ${value.id} created');
+                                        setState(() {
+                                          _documentId = value.id;
+                                          _isNew = false;
+                                          _enableEditing = false;
+                                          _isSavingOperation = false;
+                                        });
+                                      });
+                                    } else {
+                                      _userNotesReference
+                                          .doc(_documentId)
+                                          .update({
+                                        'title': _titleController.text,
+                                        'note': _noteController.text,
+                                        'modified': Timestamp.now()
+                                      }).then((value) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text('Saved (*/ω＼*)'),
+                                          behavior: SnackBarBehavior.floating,
+                                          backgroundColor: Colors.green,
+                                        ));
+                                        setState(() {
+                                          _isSavingOperation = false;
+                                          _enableEditing = false;
+                                        });
+                                      });
+                                    }
+                                  }
                                 },
-                                child: Text('Save'),
+                                child: _isSavingOperation
+                                    ? SizedBox(
+                                        height: 25,
+                                        width: 25,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text('Save'),
                               ),
                             ],
                           );
@@ -140,7 +180,7 @@ class _NotesEditorState extends State<NotesEditor> {
                                   _enableEditing = true;
                                 });
                               },
-                              icon: Icon(Icons.lock_outline, size: 20),
+                              icon: Icon(Icons.lock_outline, size: 18),
                               label: Text('Enable Editing'));
                         }
                       }),
@@ -151,11 +191,14 @@ class _NotesEditorState extends State<NotesEditor> {
                       child: TextFormField(
                         readOnly: !_enableEditing,
                         controller: _noteController,
-                        maxLines: null,
+                        maxLines: null, // no line limit
                         decoration: InputDecoration(
                             hintText: 'Your notes here',
                             border: InputBorder.none),
                         textInputAction: TextInputAction.newline,
+                        // onChanged: (text) {
+                        //   setState(() {});
+                        // },
                       ),
                     ),
                   ),

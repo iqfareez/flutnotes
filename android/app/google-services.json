@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "605771036184-f0ov30g20rg7bcbt4cv337o122abk94j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iqfareez.flut_notes",
+            "certificate_hash": "ad238b8986d5ce71d156456e1cb1d7cbe61487ca"
+          }
+        },
+        {
           "client_id": "605771036184-usq1vrnkkjciflmfni2mph2so6u0o9og.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
