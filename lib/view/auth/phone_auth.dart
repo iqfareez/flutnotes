@@ -111,6 +111,10 @@ class _PhoneAuthState extends State<PhoneAuth> {
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _widgets = [
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,10 +168,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
         ],
       ),
     ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
