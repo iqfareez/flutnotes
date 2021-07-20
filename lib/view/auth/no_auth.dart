@@ -44,24 +44,26 @@ class _NoAuthState extends State<NoAuth> {
                   child: Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
-                        'Signing in without account wouldn\'t let you to sync to another devices.'),
+                        'Your notes can\'t be restored if the app is unistalled or changed phone.'),
                   ),
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 30)),
-                  onPressed: () {
-                    setState(() {
-                      _isOperation = true;
-                    });
-                    _auth.signInAnonymously().then((value) {
-                      goToFinishAuth('Welcome abroad!', value.user);
-                      setState(() {
-                        _isOperation = false;
-                      });
-                    });
-                  },
+                  onPressed: _isOperation
+                      ? null
+                      : () {
+                          setState(() {
+                            _isOperation = true;
+                          });
+                          _auth.signInAnonymously().then((value) {
+                            goToFinishAuth('Welcome abroad!', value.user);
+                            setState(() {
+                              _isOperation = false;
+                            });
+                          });
+                        },
                   child: _isOperation
                       ? const SizedBox(
                           height: 20,
