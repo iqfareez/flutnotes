@@ -83,6 +83,7 @@ class _NotesEditorState extends State<NotesEditor> {
                     children: [
                       Flexible(
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
                           readOnly: !_enableEditing,
                           controller: _titleController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -189,6 +190,7 @@ class _NotesEditorState extends State<NotesEditor> {
                   Expanded(
                     child: SingleChildScrollView(
                       child: TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
                         readOnly: !_enableEditing,
                         controller: _noteController,
                         maxLines: null, // no line limit
