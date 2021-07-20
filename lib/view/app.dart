@@ -44,15 +44,37 @@ class _AppState extends State<App> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Notes'),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (builder) => const SignIn()));
-              },
-              icon: const Icon(Icons.logout))
-        ],
+        actions: FirebaseAuth.instance.currentUser.isAnonymous
+            ? null
+            : [
+                IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: const Text('Confirm logout?'),
+                              actions: [
+                                TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Cancel')),
+                                TextButton(
+                                    onPressed: () async {
+                                      await FirebaseAuth.instance.signOut();
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (builder) => const SignIn(),
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('Confirm')),
+                              ],
+                            );
+                          });
+                    },
+                    icon: const Icon(Icons.logout))
+              ],
       ),
       floatingActionButton: OpenContainer(
         openBuilder: (context, action) {
