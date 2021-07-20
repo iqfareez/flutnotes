@@ -28,7 +28,8 @@ class AuthFinish extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 welcomeText,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               ),
             ),
             ElevatedButton(
@@ -39,18 +40,8 @@ class AuthFinish extends StatelessWidget {
                               uid: user.uid,
                             )),
                     (route) => false);
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) {
-                //       return App(
-                //         uid: user.uid,
-                //       );
-                //     },
-                //   ),
-                // );
               },
-              child: Text('Go to My Notes'),
+              child: const Text('Go to My Notes'),
             ),
           ],
         ),

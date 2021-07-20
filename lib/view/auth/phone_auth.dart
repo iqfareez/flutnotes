@@ -16,9 +16,10 @@ class PhoneAuth extends StatefulWidget {
 
 class _PhoneAuthState extends State<PhoneAuth> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _inputController = TextEditingController();
+  final TextEditingController _phoneNumController = TextEditingController();
   final TextEditingController _smsCodeController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  String _savedPhoneNumber;
   int _selectedIndex = 0;
   String _verificationId;
   List<Widget> _widgets;
@@ -86,21 +87,20 @@ class _PhoneAuthState extends State<PhoneAuth> {
       setState(() {
         _isVerifyingSms = false;
       });
-      print('got error auth $e');
       _smsCodeController.clear();
       if (e.code == "invalid-verification-code") {
         showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('Invalid SMS code'),
-                content: Text('Please reenter the SMS code'),
+                title: const Text('Invalid SMS code'),
+                content: const Text('Please reenter the SMS code'),
                 actions: [
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('OK'))
+                      child: const Text('OK'))
                 ],
               );
             });
@@ -115,22 +115,24 @@ class _PhoneAuthState extends State<PhoneAuth> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Enter your phone number',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           InternationalPhoneNumberInput(
-            textFieldController: _inputController,
-            selectorConfig: SelectorConfig(
+            textFieldController: _phoneNumController,
+            selectorConfig: const SelectorConfig(
               selectorType: PhoneInputSelectorType.DIALOG,
               useEmoji: true,
             ),
-            inputDecoration: InputDecoration(isDense: true),
+            inputDecoration: const InputDecoration(isDense: true),
             spaceBetweenSelectorAndTextField: 3,
             onInputChanged: (number) {},
             onSaved: (number) {
-              print('saved ${number.phoneNumber}');
+              setState(() {
+                _savedPhoneNumber = number.phoneNumber;
+              });
               phoneLogin(number.phoneNumber);
             },
           ),
@@ -140,17 +142,14 @@ class _PhoneAuthState extends State<PhoneAuth> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'An OTP was sent to the phone',
-            style: TextStyle(
-                // fontSize: 18,
-                ),
+            'An OTP was sent to $_savedPhoneNumber',
           ),
-          SizedBox(height: 2),
-          Text(
+          const SizedBox(height: 2),
+          const Text(
             'Enter the code below',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           PinCodeTextField(
             keyboardType: TextInputType.number,
             controller: _smsCodeController,
@@ -158,7 +157,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
             length: 6,
             onChanged: (code) {},
             onCompleted: (code) {
-              print('complited $code');
+              print('completed $code');
               verifySmsCode(code);
             },
           ),
@@ -184,7 +183,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Card(
                       margin: const EdgeInsets.all(0.0),
                       child: Padding(
@@ -210,13 +209,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Builder(builder: (context) {
                       if (_isVerifyingSms) {
-                        return LinearProgressIndicator();
+                        return const LinearProgressIndicator();
                       }
                       if (_selectedIndex == 1) {
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       } else {
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -228,11 +227,11 @@ class _PhoneAuthState extends State<PhoneAuth> {
                                 }
                               : null,
                           child: _isOperation
-                              ? SizedBox(
+                              ? const SizedBox(
                                   height: 20,
                                   width: 20,
                                   child: CircularProgressIndicator())
-                              : Text('Continue'),
+                              : const Text('Continue'),
                         );
                       }
                     }),

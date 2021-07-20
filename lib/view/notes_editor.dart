@@ -4,9 +4,10 @@ import 'package:flut_notes/utils/user_notes_model.dart';
 import 'package:flutter/material.dart';
 
 class NotesEditor extends StatefulWidget {
-  NotesEditor({
+  const NotesEditor({
+    Key key,
     @required this.userNotes,
-  });
+  }) : super(key: key);
   final UserNotes userNotes;
   @override
   _NotesEditorState createState() => _NotesEditorState();
@@ -44,20 +45,19 @@ class _NotesEditorState extends State<NotesEditor> {
           context: context,
           builder: (builder) {
             return AlertDialog(
-              title: Text('Discard changes'),
-              content: Text('Conetnt'),
+              title: const Text('Discard changes?'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  child: Text('Discard changes'),
+                  child: const Text('Discard'),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: Text('Continue editing'),
+                  child: const Text('Continue editing'),
                 ),
               ],
             );
@@ -89,7 +89,7 @@ class _NotesEditorState extends State<NotesEditor> {
                           validator: (value) => value.isEmpty
                               ? 'Title can\'t be left empty'
                               : null,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               border: InputBorder.none, hintText: 'Title'),
                           style: TextStyle(
                               fontSize: 21,
@@ -111,7 +111,7 @@ class _NotesEditorState extends State<NotesEditor> {
                                     Navigator.pop(context);
                                   }
                                 },
-                                child: Text('Discard'),
+                                child: const Text('Discard'),
                               ),
                               ElevatedButton(
                                 onPressed: () async {
@@ -146,7 +146,7 @@ class _NotesEditorState extends State<NotesEditor> {
                                         'modified': Timestamp.now()
                                       }).then((value) {
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
+                                            .showSnackBar(const SnackBar(
                                           content: Text('Saved (*/ω＼*)'),
                                           behavior: SnackBarBehavior.floating,
                                           backgroundColor: Colors.green,
@@ -160,14 +160,14 @@ class _NotesEditorState extends State<NotesEditor> {
                                   }
                                 },
                                 child: _isSavingOperation
-                                    ? SizedBox(
+                                    ? const SizedBox(
                                         height: 25,
                                         width: 25,
                                         child: CircularProgressIndicator(
                                           color: Colors.white,
                                         ),
                                       )
-                                    : Text('Save'),
+                                    : const Text('Save'),
                               ),
                             ],
                           );
@@ -180,8 +180,8 @@ class _NotesEditorState extends State<NotesEditor> {
                                   _enableEditing = true;
                                 });
                               },
-                              icon: Icon(Icons.lock_outline, size: 18),
-                              label: Text('Enable Editing'));
+                              icon: const Icon(Icons.lock_outline, size: 18),
+                              label: const Text('Enable Editing'));
                         }
                       }),
                     ],
@@ -192,7 +192,7 @@ class _NotesEditorState extends State<NotesEditor> {
                         readOnly: !_enableEditing,
                         controller: _noteController,
                         maxLines: null, // no line limit
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             hintText: 'Your notes here',
                             border: InputBorder.none),
                         textInputAction: TextInputAction.newline,

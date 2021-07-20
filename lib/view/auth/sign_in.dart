@@ -27,18 +27,20 @@ class _SignInState extends State<SignIn> {
                     style: ElevatedButton.styleFrom(
                         primary: Colors.orange.shade300),
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (builder) => PhoneAuth()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) => const PhoneAuth()));
                     },
-                    child: Text('Continue with phone number')),
+                    child: const Text('Continue with phone number')),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Colors.orange.shade300),
                     onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (builder) => NoAuth()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (builder) => const NoAuth()));
                     },
-                    child: Text('Continue without account'))
+                    child: const Text('Continue without account'))
               ],
             ),
           ),

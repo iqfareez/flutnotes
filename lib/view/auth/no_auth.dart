@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'auth_finish.dart';
 
 class NoAuth extends StatefulWidget {
-  NoAuth({Key key}) : super(key: key);
+  const NoAuth({Key key}) : super(key: key);
 
   @override
   _NoAuthState createState() => _NoAuthState();
@@ -40,14 +40,14 @@ class _NoAuthState extends State<NoAuth> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Card(
+                const Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Text(
                         'Signing in without account wouldn\'t let you to sync to another devices.'),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 30)),
@@ -63,11 +63,11 @@ class _NoAuthState extends State<NoAuth> {
                     });
                   },
                   child: _isOperation
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator())
-                      : Text('Continue'),
+                      : const Text('Continue'),
                 )
               ],
             ),

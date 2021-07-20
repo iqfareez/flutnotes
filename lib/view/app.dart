@@ -10,7 +10,7 @@ import 'package:lottie/lottie.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class App extends StatefulWidget {
-  const App({this.uid});
+  const App({Key key, this.uid}) : super(key: key);
   final String uid;
   @override
   _AppState createState() => _AppState();
@@ -31,8 +31,8 @@ class _AppState extends State<App> {
     _userNotesStream = _userDocument.collection('usernotes').snapshots();
   }
 
-  Widget deleteIcon = Padding(
-      padding: const EdgeInsets.all(12.0),
+  Widget deleteIcon = const Padding(
+      padding: EdgeInsets.all(12.0),
       child: Icon(
         Icons.delete_outlined,
         size: 30,
@@ -48,10 +48,10 @@ class _AppState extends State<App> {
           IconButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (builder) => SignIn()));
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (builder) => const SignIn()));
               },
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
       ),
       floatingActionButton: OpenContainer(
@@ -62,11 +62,11 @@ class _AppState extends State<App> {
                   title:
                       'Notes ${now.year}-${now.month}-${now.day} ${now.hour}${now.second}'));
         },
-        closedShape: CircleBorder(),
+        closedShape: const CircleBorder(),
         // closedElevation: 5.0,
         closedBuilder: (context, action) {
           return FloatingActionButton(
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
             onPressed: () => action.call(),
           );
         },
@@ -79,13 +79,12 @@ class _AppState extends State<App> {
           // cer try guna stream lak
           // https://console.firebase.google.com/u/0/project/mini-project-56b22/firestore/data/~2Fflutnotes
           if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(
+            return const Center(
               child: Icon(Icons.error_outline),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -96,7 +95,8 @@ class _AppState extends State<App> {
                 padding: const EdgeInsets.all(18.0),
                 child: Column(
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                    // ignore: sized_box_for_whitespace
                     Container(
                         width: 140,
                         child: Lottie.asset(
@@ -140,7 +140,7 @@ class _AppState extends State<App> {
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(4.0)),
                     child: DefaultTextStyle(
-                      style: TextStyle(color: Colors.redAccent),
+                      style: const TextStyle(color: Colors.redAccent),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [deleteIcon, deleteIcon],
@@ -151,7 +151,7 @@ class _AppState extends State<App> {
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     child: AnimationConfiguration.staggeredList(
                       position: index,
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       child: SlideAnimation(
                         verticalOffset: 50,
                         child: FadeInAnimation(
@@ -171,7 +171,7 @@ class _AppState extends State<App> {
                                   trailing: Text(
                                     timeago.format(_notes.modified.toDate()),
                                     // _notes.created.toDate().toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontWeight: FontWeight.w100,
                                         fontSize: 12),
                                   ),
