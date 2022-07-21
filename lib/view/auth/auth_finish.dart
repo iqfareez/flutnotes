@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flut_notes/view/app.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import '../app.dart';
 
 class AuthFinish extends StatelessWidget {
   const AuthFinish({Key key, this.user, this.welcomeText = 'Welcome'})

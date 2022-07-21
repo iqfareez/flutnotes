@@ -1,7 +1,8 @@
-import 'package:flut_notes/view/auth/no_auth.dart';
-import 'package:flut_notes/view/auth/phone_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'no_auth.dart';
+import 'phone_auth.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key key}) : super(key: key);

@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flut_notes/utils/user_notes_model.dart';
 import 'package:flutter/material.dart';
+
+import '../utils/user_notes_model.dart';
 
 class NotesEditor extends StatefulWidget {
   const NotesEditor({

@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flut_notes/view/app.dart';
-import 'package:flut_notes/view/auth/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'view/app.dart';
+import 'view/auth/sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

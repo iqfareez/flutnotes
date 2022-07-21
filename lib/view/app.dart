@@ -1,13 +1,14 @@
 import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flut_notes/utils/user_notes_model.dart';
-import 'package:flut_notes/view/auth/sign_in.dart';
-import 'package:flut_notes/view/notes_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:lottie/lottie.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+import '../utils/user_notes_model.dart';
+import 'auth/sign_in.dart';
+import 'notes_editor.dart';
 
 class App extends StatefulWidget {
   const App({Key key, this.uid}) : super(key: key);
