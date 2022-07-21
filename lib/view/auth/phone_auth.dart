@@ -82,7 +82,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
       User user = userCredential.user;
       print('Code sent done. Signed in with ${user.toString()}');
 
-      goToFinishAuth('Welcome Abroad!', user);
+      goToFinishAuth('Welcome aboard!', user);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _isVerifyingSms = false;

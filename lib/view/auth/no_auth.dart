@@ -58,7 +58,7 @@ class _NoAuthState extends State<NoAuth> {
                             _isOperation = true;
                           });
                           _auth.signInAnonymously().then((value) {
-                            goToFinishAuth('Welcome abroad!', value.user);
+                            goToFinishAuth('Welcome aboard!', value.user);
                             setState(() {
                               _isOperation = false;
                             });
