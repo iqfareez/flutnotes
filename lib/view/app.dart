@@ -13,7 +13,7 @@ class App extends StatefulWidget {
   const App({Key key, this.uid}) : super(key: key);
   final String uid;
   @override
-  _AppState createState() => _AppState();
+  State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
@@ -61,6 +61,7 @@ class _AppState extends State<App> {
                                 TextButton(
                                     onPressed: () async {
                                       await FirebaseAuth.instance.signOut();
+                                      if (!mounted) return;
                                       Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
@@ -142,7 +143,7 @@ class _AppState extends State<App> {
               padding: const EdgeInsets.all(10),
               itemCount: snapshot.data.size,
               itemBuilder: (context, index) {
-                UserNotes _notes = UserNotes(
+                UserNotes notes = UserNotes(
                     docId: snapshot.data.docs[index].id,
                     title: snapshot.data.docs[index].data()["title"],
                     note: snapshot.data.docs[index].data()["note"],
@@ -150,11 +151,12 @@ class _AppState extends State<App> {
                     modified: snapshot.data.docs[index].data()["modified"]);
 
                 return Dismissible(
-                  key: Key(_notes.docId),
+                  key: Key(notes.docId),
                   onDismissed: (direction) async {
-                    await _userNotes.doc(_notes.docId).delete();
+                    await _userNotes.doc(notes.docId).delete();
+                    if (!mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${_notes.title} deleted')));
+                        SnackBar(content: Text('${notes.title} deleted')));
                   },
                   background: Container(
                     margin: const EdgeInsets.all(4),
@@ -182,16 +184,16 @@ class _AppState extends State<App> {
                               return Card(
                                 margin: const EdgeInsets.all(0.0),
                                 child: ListTile(
-                                  title: Text(_notes.title),
-                                  subtitle: _notes.note.isNotEmpty
+                                  title: Text(notes.title),
+                                  subtitle: notes.note.isNotEmpty
                                       ? Text(
-                                          _notes.note,
+                                          notes.note,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         )
                                       : null,
                                   trailing: Text(
-                                    timeago.format(_notes.modified.toDate()),
+                                    timeago.format(notes.modified.toDate()),
                                     // _notes.created.toDate().toString(),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.w100,
@@ -205,7 +207,7 @@ class _AppState extends State<App> {
                                 Theme.of(context).scaffoldBackgroundColor,
                             openBuilder: (context, action) {
                               return NotesEditor(
-                                userNotes: _notes,
+                                userNotes: notes,
                               );
                             },
                           ),

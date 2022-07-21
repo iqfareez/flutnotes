@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User _currentUser = FirebaseAuth.instance.currentUser;
+    User currentUser = FirebaseAuth.instance.currentUser;
     return MaterialApp(
       title: 'Flutnotes',
       theme: ThemeData(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.ubuntu().fontFamily,
       ),
       // home: App(),
-      home: _currentUser == null ? const SignIn() : App(uid: _currentUser.uid),
+      home: currentUser == null ? const SignIn() : App(uid: currentUser.uid),
       // home: AuthFinish(),
     );
   }

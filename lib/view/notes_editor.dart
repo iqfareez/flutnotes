@@ -10,7 +10,7 @@ class NotesEditor extends StatefulWidget {
   }) : super(key: key);
   final UserNotes userNotes;
   @override
-  _NotesEditorState createState() => _NotesEditorState();
+  State<NotesEditor> createState() => _NotesEditorState();
 }
 
 class _NotesEditorState extends State<NotesEditor> {

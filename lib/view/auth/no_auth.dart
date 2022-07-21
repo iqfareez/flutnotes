@@ -8,7 +8,7 @@ class NoAuth extends StatefulWidget {
   const NoAuth({Key key}) : super(key: key);
 
   @override
-  _NoAuthState createState() => _NoAuthState();
+  State<NoAuth> createState() => _NoAuthState();
 }
 
 class _NoAuthState extends State<NoAuth> {

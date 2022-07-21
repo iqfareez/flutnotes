@@ -11,7 +11,7 @@ class PhoneAuth extends StatefulWidget {
   const PhoneAuth({Key key}) : super(key: key);
 
   @override
-  _PhoneAuthState createState() => _PhoneAuthState();
+  State<PhoneAuth> createState() => _PhoneAuthState();
 }
 
 class _PhoneAuthState extends State<PhoneAuth> {
@@ -35,10 +35,10 @@ class _PhoneAuthState extends State<PhoneAuth> {
         verificationCompleted: (credential) async {
           print('verification completed is $credential');
           // Sign the user in (or link) with the auto-generated credential
-          UserCredential _userCredential =
+          UserCredential userCredential =
               await _auth.signInWithCredential(credential);
-          User _user = _userCredential.user;
-          goToFinishAuth('Welcome back!', _user);
+          User user = userCredential.user;
+          goToFinishAuth('Welcome back!', user);
         },
         verificationFailed: (FirebaseAuthException e) {
           print('error ${e.message}');
@@ -77,12 +77,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
           verificationId: _verificationId, smsCode: smsCode);
 
       // Sign the user in (or link) with the credential
-      UserCredential _userCredential =
+      UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-      User _user = _userCredential.user;
-      print('Code sent done. Signed in with ${_user.toString()}');
+      User user = userCredential.user;
+      print('Code sent done. Signed in with ${user.toString()}');
 
-      goToFinishAuth('Welcome Abroad!', _user);
+      goToFinishAuth('Welcome Abroad!', user);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _isVerifyingSms = false;
