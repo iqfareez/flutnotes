@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'view/app.dart';
@@ -21,10 +22,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutnotes',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
-        primaryColor: Colors.yellow.shade200,
-        fontFamily: GoogleFonts.ubuntu().fontFamily,
-      ),
+          primarySwatch: Colors.orange,
+          primaryColor: Colors.yellow.shade200,
+          fontFamily: GoogleFonts.ubuntu().fontFamily,
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent,
+                statusBarIconBrightness: Brightness.dark),
+          )),
       // home: App(),
       home: currentUser == null ? const SignIn() : App(uid: currentUser.uid),
       // home: AuthFinish(),
