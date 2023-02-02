@@ -26,7 +26,7 @@ class _SignInState extends State<SignIn> {
               children: [
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.orange.shade300),
+                        backgroundColor: Colors.orange.shade300),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
                     child: const Text('Continue with phone number')),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: Colors.orange.shade300),
+                        backgroundColor: Colors.orange.shade300),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (builder) => const NoAuth()));

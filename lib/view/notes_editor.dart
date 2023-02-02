@@ -176,7 +176,7 @@ class _NotesEditorState extends State<NotesEditor> {
                         } else {
                           return TextButton.icon(
                               style:
-                                  TextButton.styleFrom(primary: Colors.green),
+                                  TextButton.styleFrom(foregroundColor: Colors.green),
                               onPressed: () {
                                 setState(() {
                                   _enableEditing = true;
