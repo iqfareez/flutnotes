@@ -5,8 +5,8 @@ import 'package:lottie/lottie.dart';
 import '../app.dart';
 
 class AuthFinish extends StatelessWidget {
-  const AuthFinish({Key key, this.user, this.welcomeText = 'Welcome'})
-      : super(key: key);
+  const AuthFinish(
+      {super.key, required this.user, this.welcomeText = 'Welcome'});
   final String welcomeText;
   final User user;
 
@@ -36,11 +36,9 @@ class AuthFinish extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (builder) => App(
-                              uid: user.uid,
-                            )),
-                    (route) => false);
+                  MaterialPageRoute(builder: (builder) => App(uid: user.uid)),
+                  (route) => false,
+                );
               },
               child: const Text('Go to My Notes'),
             ),

@@ -5,10 +5,7 @@ import 'package:flutter/material.dart';
 import '../utils/user_notes_model.dart';
 
 class NotesEditor extends StatefulWidget {
-  const NotesEditor({
-    Key key,
-    @required this.userNotes,
-  }) : super(key: key);
+  const NotesEditor({super.key, required this.userNotes});
   final UserNotes userNotes;
   @override
   State<NotesEditor> createState() => _NotesEditorState();
@@ -16,13 +13,13 @@ class NotesEditor extends StatefulWidget {
 
 class _NotesEditorState extends State<NotesEditor> {
   final _formKey = GlobalKey<FormState>();
-  final _userUid = FirebaseAuth.instance.currentUser.uid;
-  CollectionReference _userNotesReference;
-  TextEditingController _titleController;
-  TextEditingController _noteController;
-  bool _isNew;
-  bool _enableEditing;
-  String _documentId;
+  final _userUid = FirebaseAuth.instance.currentUser!.uid;
+  late final CollectionReference _userNotesReference;
+  late final TextEditingController _titleController;
+  late final TextEditingController _noteController;
+  late bool _isNew;
+  late bool _enableEditing;
+  late String _documentId;
   bool _isSavingOperation = false;
 
   @override
@@ -34,7 +31,7 @@ class _NotesEditorState extends State<NotesEditor> {
     _noteController = TextEditingController(text: widget.userNotes.note);
     _isNew = widget.userNotes.docId ==
         null; // is this new document created or editing existing
-    _documentId = widget.userNotes.docId;
+    _documentId = widget.userNotes.docId!;
     _enableEditing = _isNew;
   }
 
@@ -88,7 +85,7 @@ class _NotesEditorState extends State<NotesEditor> {
                           readOnly: !_enableEditing,
                           controller: _titleController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) => value.isEmpty
+                          validator: (value) => value!.isEmpty
                               ? 'Title can\'t be left empty'
                               : null,
                           decoration: const InputDecoration(
@@ -117,7 +114,7 @@ class _NotesEditorState extends State<NotesEditor> {
                               ),
                               ElevatedButton(
                                 onPressed: () async {
-                                  if (_formKey.currentState.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     setState(() {
                                       _isSavingOperation = true;
                                     });
@@ -175,8 +172,8 @@ class _NotesEditorState extends State<NotesEditor> {
                           );
                         } else {
                           return TextButton.icon(
-                              style:
-                                  TextButton.styleFrom(foregroundColor: Colors.green),
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.green),
                               onPressed: () {
                                 setState(() {
                                   _enableEditing = true;

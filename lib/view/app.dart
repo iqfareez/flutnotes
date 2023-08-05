@@ -11,7 +11,7 @@ import 'auth/sign_in.dart';
 import 'notes_editor.dart';
 
 class App extends StatefulWidget {
-  const App({Key key, this.uid}) : super(key: key);
+  const App({super.key, required this.uid});
   final String uid;
   @override
   State<App> createState() => _AppState();
@@ -19,10 +19,9 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  DocumentReference _userDocument;
-  CollectionReference _userNotes;
-  // Stream _userDocumentStream;
-  Stream _userNotesStream;
+  late final DocumentReference _userDocument;
+  late final CollectionReference _userNotes;
+  late final Stream<QuerySnapshot<Map<String, dynamic>>> _userNotesStream;
   @override
   void initState() {
     super.initState();
@@ -45,7 +44,7 @@ class _AppState extends State<App> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Notes'),
-        actions: FirebaseAuth.instance.currentUser.isAnonymous
+        actions: FirebaseAuth.instance.currentUser!.isAnonymous
             ? null
             : [
                 IconButton(
@@ -113,7 +112,7 @@ class _AppState extends State<App> {
             );
           }
 
-          if (snapshot.data.size == 0) {
+          if (snapshot.data!.size == 0) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
@@ -142,17 +141,18 @@ class _AppState extends State<App> {
           return AnimationLimiter(
             child: ListView.builder(
               padding: const EdgeInsets.all(10),
-              itemCount: snapshot.data.size,
+              itemCount: snapshot.data!.size,
               itemBuilder: (context, index) {
                 UserNotes notes = UserNotes(
-                    docId: snapshot.data.docs[index].id,
-                    title: snapshot.data.docs[index].data()["title"],
-                    note: snapshot.data.docs[index].data()["note"],
-                    created: snapshot.data.docs[index].data()["created"],
-                    modified: snapshot.data.docs[index].data()["modified"]);
+                  docId: snapshot.data!.docs[index].id,
+                  title: snapshot.data!.docs[index].data()["title"],
+                  note: snapshot.data!.docs[index].data()["note"],
+                  created: snapshot.data!.docs[index].data()["created"],
+                  modified: snapshot.data!.docs[index].data()["modified"],
+                );
 
                 return Dismissible(
-                  key: Key(notes.docId),
+                  key: Key(notes.docId!),
                   onDismissed: (direction) async {
                     await _userNotes.doc(notes.docId).delete();
                     if (!mounted) return;
@@ -186,19 +186,19 @@ class _AppState extends State<App> {
                                 margin: const EdgeInsets.all(0.0),
                                 child: ListTile(
                                   title: Text(notes.title),
-                                  subtitle: notes.note.isNotEmpty
+                                  subtitle: notes.note!.isNotEmpty
                                       ? Text(
-                                          notes.note,
+                                          notes.note!,
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
                                         )
                                       : null,
                                   trailing: Text(
-                                    timeago.format(notes.modified.toDate()),
-                                    // _notes.created.toDate().toString(),
+                                    timeago.format(notes.modified!.toDate()),
                                     style: const TextStyle(
-                                        fontWeight: FontWeight.w100,
-                                        fontSize: 12),
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               );

@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'auth_finish.dart';
 
 class NoAuth extends StatefulWidget {
-  const NoAuth({Key key}) : super(key: key);
+  const NoAuth({super.key});
 
   @override
   State<NoAuth> createState() => _NoAuthState();
@@ -58,7 +58,7 @@ class _NoAuthState extends State<NoAuth> {
                             _isOperation = true;
                           });
                           _auth.signInAnonymously().then((value) {
-                            goToFinishAuth('Welcome aboard!', value.user);
+                            goToFinishAuth('Welcome aboard!', value.user!);
                             setState(() {
                               _isOperation = false;
                             });

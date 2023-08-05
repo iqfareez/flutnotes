@@ -1,4 +1,3 @@
-/// https://firebase.flutter.dev/docs/auth/phone/
 import 'package:animations/animations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flut_notes/view/auth/auth_finish.dart';
@@ -8,7 +7,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PhoneAuth extends StatefulWidget {
-  const PhoneAuth({Key key}) : super(key: key);
+  const PhoneAuth({super.key});
 
   @override
   State<PhoneAuth> createState() => _PhoneAuthState();
@@ -19,41 +18,40 @@ class _PhoneAuthState extends State<PhoneAuth> {
   final TextEditingController _phoneNumController = TextEditingController();
   final TextEditingController _smsCodeController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String _savedPhoneNumber;
+  late List<Widget> _widgets;
+  String? _savedPhoneNumber;
   int _selectedIndex = 0;
-  String _verificationId;
-  List<Widget> _widgets;
+  String? _verificationId;
   bool _isOperation = false;
   bool _isVerifyingSms = false;
 
   Future<void> phoneLogin(String phoneNumber) async {
-    setState(() {
-      _isOperation = true;
-    });
+    setState(() => _isOperation = true);
     await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (credential) async {
-          print('verification completed is $credential');
-          // Sign the user in (or link) with the auto-generated credential
-          UserCredential userCredential =
-              await _auth.signInWithCredential(credential);
-          User user = userCredential.user;
-          goToFinishAuth('Welcome back!', user);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          print('error ${e.message}');
-        },
-        codeSent: (verificationId, resendToken) async {
-          print('code sent');
-          // Update the UI - wait for the user to enter the SMS code
-          setState(() {
-            _verificationId = verificationId;
-            _selectedIndex = 1;
-          });
-        },
-        codeAutoRetrievalTimeout: (verificationId) {
-          print('autoRetrievalTimeout $verificationId');
+      phoneNumber: phoneNumber,
+      verificationCompleted: (credential) async {
+        print('verification completed is $credential');
+        // Sign the user in (or link) with the auto-generated credential
+        UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+        User? user = userCredential.user;
+        goToFinishAuth('Welcome back!', user!);
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        print('error ${e.message}');
+      },
+      codeSent: (verificationId, resendToken) async {
+        print('code sent');
+        // Update the UI - wait for the user to enter the SMS code
+        setState(() {
+          _verificationId = verificationId;
+          _selectedIndex = 1;
         });
+      },
+      codeAutoRetrievalTimeout: (verificationId) {
+        print('autoRetrievalTimeout $verificationId');
+      },
+    );
   }
 
   void goToFinishAuth(String message, User user) {
@@ -74,15 +72,15 @@ class _PhoneAuthState extends State<PhoneAuth> {
     print('smsCode is $smsCode');
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: _verificationId, smsCode: smsCode);
+          verificationId: _verificationId!, smsCode: smsCode);
 
       // Sign the user in (or link) with the credential
       UserCredential userCredential =
           await _auth.signInWithCredential(credential);
-      User user = userCredential.user;
+      User? user = userCredential.user;
       print('Code sent done. Signed in with ${user.toString()}');
 
-      goToFinishAuth('Welcome aboard!', user);
+      goToFinishAuth('Welcome aboard!', user!);
     } on FirebaseAuthException catch (e) {
       setState(() {
         _isVerifyingSms = false;
@@ -109,11 +107,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     _widgets = [
       Column(
@@ -134,10 +127,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
             spaceBetweenSelectorAndTextField: 3,
             onInputChanged: (number) {},
             onSaved: (number) {
-              setState(() {
-                _savedPhoneNumber = number.phoneNumber;
-              });
-              phoneLogin(number.phoneNumber);
+              setState(() => _savedPhoneNumber = number.phoneNumber);
+              phoneLogin(number.phoneNumber!);
             },
           ),
         ],
@@ -222,9 +213,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30)),
                           onPressed: !_isOperation
-                              ? () {
-                                  _formKey.currentState.save();
-                                }
+                              ? () => _formKey.currentState?.save()
                               : null,
                           child: _isOperation
                               ? const SizedBox(
