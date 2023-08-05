@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "605771036184-13jg5uonh73l605hr5vcmikeajpki303.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iqfareez.flut_notes",
+            "certificate_hash": "4e5e296691ad7e1f415d38b8c3bb499d33421e4b"
+          }
+        },
+        {
           "client_id": "605771036184-f0ov30g20rg7bcbt4cv337o122abk94j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,11 +30,11 @@
           }
         },
         {
-          "client_id": "605771036184-usq1vrnkkjciflmfni2mph2so6u0o9og.apps.googleusercontent.com",
+          "client_id": "605771036184-vhi4k0sb05vgs6qm4nhrol21af2gjbom.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iqfareez.flut_notes",
-            "certificate_hash": "9c38892f9c8bd2b3f2587c51728ca72da61c3301"
+            "certificate_hash": "8d3a37256a13d8a031c39577059b191e4d477133"
           }
         },
         {
@@ -179,6 +187,35 @@
         "mobilesdk_app_id": "1:605771036184:android:c98741405efd2bae85756d",
         "android_client_info": {
           "package_name": "com.iqfareez.test_fir_dynam_link"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605771036184-0hfi62kjh7oi1tmu28dkb1niglumo2m1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgNqyAAIPQKYj_v3iVsYOT3wRzOeUXRBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605771036184-0hfi62kjh7oi1tmu28dkb1niglumo2m1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605771036184:android:9950cc7130fbdd5485756d",
+        "android_client_info": {
+          "package_name": "com.iqfareez.todo_app"
         }
       },
       "oauth_client": [
