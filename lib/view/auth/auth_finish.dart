@@ -40,7 +40,7 @@ class AuthFinish extends StatelessWidget {
                   (route) => false,
                 );
               },
-              child: const Text('Go to My Notes'),
+              child: const Text('Start taking notes'),
             ),
           ],
         ),
